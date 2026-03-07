@@ -34,12 +34,10 @@
 
 *   [Hardhat](https://hardhat.org/)：目前最主流的以太坊开发环境，基于 JavaScript/TypeScript，拥有庞大的插件生态。
 *   [Foundry](https://github.com/foundry-rs/foundry)：基于 Rust 编写的极速开发框架，支持用 Solidity 编写测试脚本，正在快速取代 Hardhat。
-*   [Remix](http://remix.ethereum.org)：基于浏览器的 IDE，无需安装，适合快速原型开发和教学。
+*   [Remix](https://remix.ethereum.org)：基于浏览器的 IDE，无需安装，适合快速原型开发和教学。
 
 ### 网站资源
 
 *   [Etherscan](https://etherscan.io/)：最权威的区块浏览器，查看所有链上交易、合约代码和账户状态。
 *   [DefiLlama](https://defillama.com/)：最全面的 DeFi TVL 和数据分析平台。
 *   [Dune Analytics](https://dune.com/)：强大的链上数据可视化分析平台，社区贡献了大量 Dashboard。
-
-
