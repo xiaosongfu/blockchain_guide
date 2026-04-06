@@ -1,5 +1,7 @@
 ### 社区能源共享
+
 #### 功能描述
+
 本 [合约](chaincode_example05.go) 以纽约实验性的能源微电网为例，作为一个简单的案例进行实现。
 
 >“在总统大道的一边，五户家庭通过太阳能板发电；在街道的另一边的五户家庭可以购买对面家庭不需要的电力。而连接这项交易的就是区块链网络，几乎不需要人员参与就可以管理记录交易。”但是这个想法是非常有潜力的，能够代表未来社区管理能源系统。”
@@ -13,6 +15,7 @@
 账户私钥应该由安装在本地的客户端生成，本例中为了简便，使用模拟私钥和公钥。每位用户的私钥为guid+“1”，公钥为guid+“2”。签名方式简化为私钥+"1"
 
 #### 数据结构设计
+
 在该智能合约中暂时只有一种角色，为每一户家庭用户。
 
 - 家庭用户
@@ -32,6 +35,7 @@
     - 交易时间
 
 #### function及各自实现的功能
+
 - `init`  初始化操作
 - `invoke`   调用合约内部的函数
 - `query`   查询相关的信息
@@ -43,32 +47,34 @@
 - `getHomeByAddress` 通过地址获取用户 query
 - `changeStatus` 某一位用户修改自身的状态  invoke
 
-- `writeUser` 将新用户写入到键值对中  
+- `writeUser` 将新用户写入到键值对中
 - `writeTransaction` 记录交易
+
 #### 接口设计
+
 `createUser`
 
 request参数:
-```
-args[0] 剩余能量值 
+```text
+args[0] 剩余能量值
 args[1] 剩余金额
 ```
 response参数:
-```
+```text
 新建家庭用户的json表示
 ```
 
 `buyByAddress`
 
 request参数:
-```
+```text
 args[0] 卖家的账户地址
 args[1] 买家签名
 args[2] 买家的账户地址
 args[3] 想要购买的电量数值
 ```
 response参数:
-```
+```text
 购买成功的话返回该transaction的json串。
 购买失败返回error
 ```
@@ -76,53 +82,53 @@ response参数:
 `getTransactionById`
 
 request参数:
-```
+```text
 args[0] 交易编号
 ```
 response参数:
-``` 
+```text
 查询结果的transaction 交易表示
 ```
 
 `getTransactions`
 
 request参数:
-```
+ ```text
 none
  ```
 response参数:
-```
+```text
 获取所有的交易列表（如果交易大于10，则返回前10个）
 ```
 
 `getHomeByAddress`
 
 request参数
-```
+```text
 args[0] address
 ```
 response参数
-```
+```text
 用户信息的json表示
 ```
 
 `getHomes`
 
 response参数
-```
+```text
 获取所有的用户列表（如果用户个数大于10，则返回前10个）
 ```
 
 `changeStatus`
 
 request参数:
-```
+```text
 args[0] 账户地址
 args[1]　账户签名
 args[2] 对自己的账户进行的操作，0：设置为不可购买  1：设置状态为可购买
 ```
 response参数:
-```
+```text
 修改后的用户信息json表示
 ```
 

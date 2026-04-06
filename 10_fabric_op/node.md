@@ -1,10 +1,11 @@
-# 管理节点
+## 管理节点
 
 Fabric 网络由多种不同类型的节点组成，每种节点负责不同的功能。了解如何管理这些节点对于维护一个健康的区块链网络至关重要。
 
 ## 节点类型
 
 ### Peer 节点
+
 Peer 节点是 Fabric 网络的核心组件，主要负责：
 *   **维护账本**：存储区块链数据和世界状态（State DB）。
 *   **执行链码**：运行智能合约并生成交易提案的背书。
@@ -16,6 +17,7 @@ Peer 节点是 Fabric 网络的核心组件，主要负责：
 *   **锚节点 (Anchor Peer)**：用于跨组织的 Gossip 通信发现。
 
 ### Orderer 节点
+
 Orderer 节点负责交易排序和区块生成：
 *   接收来自客户端的交易。
 *   对交易进行全局排序。
@@ -23,6 +25,7 @@ Orderer 节点负责交易排序和区块生成：
 *   Fabric 2.x 默认使用 **Raft** 共识协议。
 
 ### CA 节点
+
 证书授权（Certificate Authority）节点负责身份管理：
 *   为网络参与者签发数字证书。
 *   管理证书的注册、吊销等生命周期。
@@ -30,7 +33,9 @@ Orderer 节点负责交易排序和区块生成：
 ## 常用管理操作
 
 ### 查看节点状态
+
 ```bash
+
 # 查看 Peer 节点加入的通道
 peer channel list
 
@@ -39,7 +44,9 @@ peer lifecycle chaincode queryinstalled
 ```
 
 ### 节点日志管理
+
 ```bash
+
 # 查看 Docker 容器日志
 docker logs peer0.org1.example.com
 
@@ -48,6 +55,7 @@ peer node logging setlevel gossip warning
 ```
 
 ### Orderer 集群管理
+
 Raft 模式下的 Orderer 集群支持动态添加和移除节点。通过更新系统通道配置可以实现节点的增减，无需停机。
 
 ## 最佳实践

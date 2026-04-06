@@ -1,5 +1,7 @@
 ## 数字货币发行与管理
+
 ### 简介
+
 该智能合约实现一个简单的商业应用案例，即数字货币的发行与转账。在这之中一共分为三种角色：中央银行，商业银行，企业。其中中央银行可以发行一定数量的货币，企业之间可以进行相互的转账。主要实现如下的功能：
 
 * 初始化中央银行及其发行的货币数量
@@ -10,6 +12,7 @@
 * 查询企业、银行、交易信息
 
 ### 主要函数
+
 * `init`：初始化中央银行，并发行一定数量的货币；
 * `invoke`：调用合约内部的函数；
 * `query`：查询相关的信息；
@@ -31,6 +34,7 @@
 * `writeTransaction`：写入交易信息。
 
 ### 数据结构设计
+
 * centerBank 中央银行
   * Name：名称
   * TotalNumber：发行货币总数额
@@ -53,12 +57,14 @@
   * Time：交易时间
   * Number：交易数额
   * ID：交易 ID
- 
+
 ### 接口设计
+
 #### `init`
+
 request 参数:
 
-```
+```text
 args[0] 银行名称
 args[1] 初始化发布金额
 ```
@@ -72,7 +78,7 @@ response 参数:
 #### `createBank`
 
 request 参数:
-```
+```text
 args[0] 银行名称
 ```
 
@@ -86,7 +92,7 @@ response 参数:
 
 request 参数:
 
-```
+```text
 args[0] 公司名称
 ```
 
@@ -100,7 +106,7 @@ response 参数:
 
 request 参数:
 
-```
+```text
 args[0] 再次发行货币数额
 
 ```
@@ -114,7 +120,7 @@ response 参数:
 
 request 参数:
 
-```
+```text
 args[0] 商业银行ID
 args[1] 转账数额
 ```
@@ -129,7 +135,7 @@ response 参数:
 
 request 参数:
 
-```
+```text
 args[0] 商业银行ID
 args[1] 企业ID
 args[2] 转账数额
@@ -144,7 +150,7 @@ response 参数:
 #### `transfer`
 
 request 参数:
-```
+```text
 args[0] 转账用户ID
 args[1] 被转账用户ID
 args[2] 转账余额
@@ -192,7 +198,7 @@ response 参数
 
 request 参数
 
-```
+```text
 args[0] 商业银行ID
 ```
 
@@ -206,7 +212,7 @@ response 参数
 
 request 参数
 
-```
+```text
 args[0] 企业ID
 ```
 
@@ -219,7 +225,7 @@ response 参数
 #### `getTransactionById`
 
 request 参数
-```
+```text
 args[0] 交易ID
 ```
 
@@ -233,13 +239,13 @@ response 参数
 
 request 参数
 
-```
+```text
 CenterBank
 ```
 
 response 参数
 
-```
+```text
 err  nil 为成功
 ```
 
@@ -247,41 +253,42 @@ err  nil 为成功
 
 request 参数
 
-```
+```text
 Bank
 ```
 
 response 参数
 
-```
+```text
 err  nil 为成功
 ```
 
 #### `writeCompany`
 
 request 参数
-```
+```text
 Company
 ```
 
 response 参数
 
-```
+```text
 err  nil 为成功
 ```
 
 #### `writeTransaction`
 
 request 参数
-```
+```text
 Transaction
 ```
 
 response 参数
 
-```
+```text
 err  nil 为成功
-···
+```
 
 #### 其它
+
 查询时为了兼顾读速率，将一些信息备份存放在非区块链数据库上也是一个较好的选择。

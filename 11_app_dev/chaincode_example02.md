@@ -17,13 +17,14 @@
 * `delete`：删除账户。
 
 ### 依赖的包
+
 ```go
 import (
 	"errors"
 	"fmt"
 	"strconv"
 
-	"github.com/hyperledger/fabric/core/chaincode/shim"
+	"github.com/hyperledger/fabric-chaincode-go/shim"
 )
 ```
 `strconv` 实现 int 与 string 类型之间的转换。
@@ -38,4 +39,5 @@ X, err = strconv.Atoi(args[2])
 当 `args[2]<0` 时，A 账户余额增加，否则 B 账户余额减少。
 
 ### 可扩展功能
+
 实例中未包含新增账户并初始化的功能。开发者可以根据自己的业务模型进行添加。

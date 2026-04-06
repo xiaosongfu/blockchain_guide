@@ -1,4 +1,4 @@
-# 安装客户端
+## 安装客户端
 
 本节介绍如何安装 Geth（Go 语言实现的以太坊客户端）。Geth 是以太坊最主流的执行层客户端之一。
 
@@ -33,6 +33,7 @@ sudo apt-get install ethereum
 
 ```bash
 geth version
+
 # 输出示例：
 # Geth
 # Version: 1.13.x-stable
@@ -48,6 +49,7 @@ geth version
 访问 [go.dev/dl](https://go.dev/dl/) 下载并安装 Go 1.21 或更高版本。
 
 ```bash
+
 # 验证安装
 go version
 ```
@@ -75,6 +77,7 @@ make geth
 基本的 Geth 启动命令：
 
 ```bash
+
 # 连接主网（需配合共识层客户端）
 geth --http --http.api eth,net,engine,admin
 

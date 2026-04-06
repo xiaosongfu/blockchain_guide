@@ -56,6 +56,7 @@ $ curl http://peer:9443/healthz
 
 ```bash
 $ curl http://orderer:8443/metrics
+
 # HELP blockcutter_block_fill_duration The time from first transaction enqueuing to the block being cut in seconds.
 # TYPE blockcutter_block_fill_duration histogram
 blockcutter_block_fill_duration_bucket{channel="businesschannel",le="0.005"} 0
@@ -63,11 +64,13 @@ blockcutter_block_fill_duration_bucket{channel="businesschannel",le="0.01"} 0
 blockcutter_block_fill_duration_bucket{channel="businesschannel",le="0.025"} 0
 ...
 process_virtual_memory_bytes 3.37268736e+08
+
 # HELP process_virtual_memory_max_bytes Maximum amount of virtual memory available in bytes.
 # TYPE process_virtual_memory_max_bytes gauge
 process_virtual_memory_max_bytes -1
 
 $ curl http://peer:9443/metrics
+
 # HELP chaincode_launch_duration The time to launch a chaincode.
 # TYPE chaincode_launch_duration histogram
 chaincode_launch_duration_bucket{chaincode="+lifecycle:1.4.0",success="true",le="0.005"} 1
@@ -75,6 +78,7 @@ chaincode_launch_duration_bucket{chaincode="+lifecycle:1.4.0",success="true",le=
 chaincode_launch_duration_bucket{chaincode="+lifecycle:1.4.0",success="true",le="0.025"} 1
 ...
 process_virtual_memory_bytes 4.21298176e+08
+
 # HELP process_virtual_memory_max_bytes Maximum amount of virtual memory available in bytes.
 # TYPE process_virtual_memory_max_bytes gauge
 process_virtual_memory_max_bytes -1
@@ -84,7 +88,7 @@ Orderer 的统计信息包括切块时间、广播队列、校验时间、发送
 
 Peer 的统计信息包括链码执行情况、Go 进程信息、gRPC 请求、区块处理、账本提交、数据库更新、系统资源等多个指标，可以实时了解 Peer 资源使用和工作情况。
 
-当然，直接阅读这些统计指标并不高效，更方便的是通过外部监控工具。如果使用 StatsD 来分析数据，需要在 Peer 和 Orderer 配置文件中指定 StatsD 服务器地址（StatsD 是推送方式）；如果使用 Prometheus，直接在其配置中指定 Peer 和 Orderer 的服务地址即可（Prometheus 是推送方式）。
+当然，直接阅读这些统计指标并不高效，更方便的是通过外部监控工具。如果使用 StatsD 来分析数据，需要在 Peer 和 Orderer 配置文件中指定 StatsD 服务器地址（StatsD 是推送方式）；如果使用 Prometheus，直接在其配置中指定 Peer 和 Orderer 的服务地址即可（Prometheus 是拉取方式，由 Prometheus 主动从目标地址获取指标数据）。
 
 以 Prometheus 为例，配置中指定 Peer 和 Orderer 地址后，Prometheus 会主动从 /metrics API 获取统计信息。此时通过 Prometheus 的图形界面（默认监听在 9090 端口）可以查看到这些指标的数据和统计图。
 

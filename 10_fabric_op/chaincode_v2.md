@@ -1,4 +1,4 @@
-# 管理链上代码 (Lifecycle)
+## 管理链上代码（Lifecycle）
 
 从 Fabric 2.0 开始，引入了全新的链码生命周期管理机制（Chaincode Lifecycle），旨在支持更去中心化的治理模式。与 1.x 版本中“一旦实例化全网生效”的模式不同，新生命周期要求组织间达成共识才能启动链码。
 
@@ -15,13 +15,14 @@
 
 之后，用户就可以调用或查询链码了。
 
-![Fabric 2.0 链码生命周期](_images/chaincode_lifecycle_v2.png)
+![Fabric 2.0 链码生命周期](_images/chaincode_lifecycle.png)
 
-## 1. 打包链码 (Package)
+## 1. 打包链码 （Package）
 
 打包操作在本地进行，不需要连接网络。
 
 ```bash
+
 # 设置环境变量
 export CC_NAME=basic
 export CC_VERSION=1.0
@@ -36,7 +37,7 @@ peer lifecycle chaincode package ${CC_NAME}.tar.gz \
 
 这会生成一个 `basic.tar.gz` 文件。
 
-## 2. 安装链码 (Install)
+## 2. 安装链码 （Install）
 
 将打包好的文件安装到 Peer 节点上。此操作是针对**节点**的，需要在所有背书节点上执行。
 
@@ -47,18 +48,21 @@ peer lifecycle chaincode install ${CC_NAME}.tar.gz
 安装成功后，系统会返回一个**包标识符 (Package ID)**，格式为 `label:hash`。你需要记录下这个 ID，后续步骤会用到。
 
 ```bash
+
 # 查询已安装的链码包ID
 peer lifecycle chaincode queryinstalled
+
 # 输出示例: basic_1.0:e23a...
 ```
 
-## 3. 组织批准 (Approve)
+## 3. 组织批准 （Approve）
 
 这是 2.x 最关键的变更。每个组织都需要使用自己的 MSP 身份批准链码定义。链码定义包括：名称、版本、序列号、背书策略等。
 
-**注意**：所有组织必须批准**完全相同**的参数（包括 Package ID），才能达成共识。
+**注意**：所有组织必须批准**相同的链码定义参数**，但 `Package ID` 本身不要求每个组织完全一致。是否填写 `Package ID`，取决于该组织是否需要在本地安装并运行对应链码包。
 
 ```bash
+
 # 环境变量
 export PACKAGE_ID=basic_1.0:e23a...
 export CHANNEL_NAME=mychannel
@@ -74,7 +78,7 @@ peer lifecycle chaincode approveformyorg \
 ```
 
 *   `--sequence`: 序列号。首次部署为 1，每次升级链码时需递增（如 2, 3）。
-*   `--package-id`: 指定要运行的具体代码包 ID。
+*   `--package-id`: 指定本组织要安装并运行的代码包 ID；没有本地安装需求的组织可以只批准链码定义，而不绑定同一个包 ID。
 
 你可以随时检查当前通道的批准状态：
 
@@ -87,7 +91,7 @@ peer lifecycle chaincode checkcommitreadiness \
     --output json
 ```
 
-## 4. 提交链码 (Commit)
+## 4. 提交链码 （Commit）
 
 当 `checkcommitreadiness` 显示已有足够多的组织（默认是大多数，Majority）批准了该定义，任意一个组织的管理员都可以执行提交操作。
 
