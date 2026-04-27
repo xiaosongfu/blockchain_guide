@@ -18,6 +18,7 @@ Go Modules 的日常使用非常简单，主要依赖 `go` 命令行工具。
 
 ```bash
 $ go mod init <module-name>
+
 # 例如：go mod init github.com/myuser/myproject
 ```
 
@@ -54,7 +55,7 @@ $ go mod tidy
 *   **go.mod**: 定义模块路径、Go 版本以及项目直接依赖的模块版本。
 *   **go.sum**: 记录所有依赖模块（包括间接依赖）的加密哈希值，用于确保下载的模块未被篡改，保证构建的一致性和安全性。这两个文件都应提交到版本控制系统（Git）中。
 
-#### 代理配置 (GOPROXY)
+#### 代理配置 （GOPROXY）
 
 在中国大陆地区访问 Go 官方源可能较慢。可以通过设置 `GOPROXY` 环境变量来使用国内的代理服务加速下载。
 

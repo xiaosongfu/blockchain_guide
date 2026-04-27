@@ -1,0 +1,98 @@
+name: Update Preview PDF
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: preview-pdf
+  cancel-in-progress: true
+
+jobs:
+  build-preview-pdf:
+    name: Build preview PDF
+    runs-on: ubuntu-latest
+    env:
+      MDPRESS_VERSION: "0.7.9"
+      MDPRESS_SHA256: "922bf55514d6705431956250f6d76141d4301055c43099a6902928508db55dc7"
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Install Chromium and CJK fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chromium-browser fonts-noto-cjk fonts-noto-cjk-extra
+
+      - name: Install mdpress
+        run: |
+          curl -fsSL "https://github.com/yeasy/mdPress/releases/download/v${MDPRESS_VERSION}/mdpress_${MDPRESS_VERSION}_linux_amd64.tar.gz" -o /tmp/mdpress.tar.gz
+          echo "${MDPRESS_SHA256}  /tmp/mdpress.tar.gz" | sha256sum -c -
+          tar xzf /tmp/mdpress.tar.gz -C /tmp mdpress
+          sudo install -m 0755 /tmp/mdpress /usr/local/bin/mdpress
+          mdpress --version
+
+      - name: Build latest preview PDF
+        run: |
+          mkdir -p dist
+          mdpress build --format pdf --output dist/blockchain_guide.pdf
+
+      - name: Write release notes
+        run: |
+          cat > dist/release-notes.md <<EOF
+          Auto-updated preview PDF from \`${GITHUB_SHA::7}\`.
+
+          - Branch: \`${GITHUB_REF_NAME}\`
+          - Commit: https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}
+          - Run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
+          EOF
+
+      - name: Upload preview artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: preview-pdf-dist
+          path: dist/
+
+  update-preview-release:
+    name: Update preview release
+    needs: build-preview-pdf
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - name: Download preview artifact
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          name: preview-pdf-dist
+          path: dist
+
+      - name: Create preview release
+        run: |
+          gh release view preview-pdf >/dev/null 2>&1 || \
+            gh release create preview-pdf \
+              --title "Latest Preview PDF" \
+              --notes-file dist/release-notes.md \
+              --prerelease \
+              --latest=false \
+              --target "$GITHUB_SHA"
+
+      - name: Update preview release metadata
+        run: |
+          gh release edit preview-pdf \
+            --title "Latest Preview PDF" \
+            --notes-file dist/release-notes.md \
+            --prerelease \
+            --target "$GITHUB_SHA"
+
+      - name: Remove legacy preview asset
+        run: gh release delete-asset preview-pdf latest.pdf -y || true
+
+      - name: Upload preview PDF
+        run: gh release upload preview-pdf dist/blockchain_guide.pdf --clobber

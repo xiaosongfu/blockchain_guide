@@ -26,6 +26,7 @@
 * Validating Peer（验证节点）：维护账本的核心节点，参与一致性维护、对交易的验证和执行。更进一步可以划分为 Endorser、Committer 等多种角色。
 
 ### 密码学与安全相关
+
 * ASN.1：Abstract Syntax Notation One，定义了描述数据的表示、编码、传输、解码的一套标准，被广泛应用在计算机、通信和安全领域；
 * CA：Certificate Authority，负责证书的创建、颁发，在 PKI 体系中最为核心的角色；
 * CBDC：Central Bank Digital Currency，央行数字货币，由中央银行发行的数字货币，多与已有法币体系挂钩；
@@ -53,7 +54,7 @@
 * Miner（矿工）：参与挖矿的人或组织；
 * Mining Machine（矿机）：专门为数字货币挖矿而设计的设备，包括基于软件、GPU、FPGA、专用芯片等多种实现；
 * Mining Pool（矿池）：采用团队协作方式来集中算力进行挖矿，对产出的数字货币进行分配；
-* PoS：Proof of Stake，股份持有证明，拥有代币或股权越多的用户，挖到矿的概率越大；
+* PoS：Proof of Stake，权益证明，验证者按质押权益和协议规则参与出块、证明或投票，不再依赖 PoW 式算力挖矿；
 * PoW：Proof of Work，工作量证明，在一定难题前提下求解一个 SHA256 的 Hash 问题；
 * Smart Contract（智能合约）：运行在区块链上的提前约定的合同；
 * Sybil Attack（女巫攻击）：少数节点通过伪造或盗用身份伪装成大量节点，进而对分布式系统系统进行破坏。
@@ -61,7 +62,18 @@
 * NFT：Non-Fungible Token，非同质化代币。用于表示独一无二的数字资产的所有权；
 * Layer 2（二层网络）：构建在 Layer 1（主链）之上的扩展协议，旨在提高交易速度并降低成本，如 Rollup；
 * Rollup（汇总）：一种 Layer 2 方案，将大量交易在链下执行并压缩，然后提交到主链进行验证；
-* Web3：基于区块链的下一代互联网，强调用户对数据和资产的拥有权。
+* Web3：基于区块链的下一代互联网，强调用户对数据和资产的拥有权；
+* Account Abstraction（账户抽象）：通过 ERC-4337 等标准，允许智能合约作为用户账户，支持社交恢复、Gas 代付等功能；
+* DePIN：Decentralized Physical Infrastructure Network，去中心化物理基础设施网络，通过代币激励来建设和维护现实世界的物理设施；
+* EIP-4844（Proto-Danksharding）：以太坊 Dencun 升级引入的 Blob 数据类型，大幅降低 Layer 2 交易成本；
+* Flash Loan（闪电贷）：DeFi 中无需抵押的即时贷款，必须在同一交易内完成借还；
+* MEV：Maximal Extractable Value，最大可提取价值，验证者通过重排交易获取的额外利润；
+* RWA：Real World Assets，现实世界资产代币化，将传统金融资产（如债券、房地产）映射到区块链上；
+* SBT：Soulbound Token，灵魂绑定代币，不可转让的 NFT，用于表示身份、资质等；
+* TVL：Total Value Locked，总锁定价值，衡量 DeFi 协议中锁定资产规模的指标；
+* ZKML：Zero-Knowledge Machine Learning，零知识机器学习，利用 ZKP 验证 ML 模型推理的正确性；
+* VRF：Verifiable Random Function，可验证随机函数，可以生成可验证的伪随机输出的密码学工具；
+* BLS：Boneh-Lynn-Shacham 签名，支持签名聚合的密码学方案，广泛用于 PoS 共识中的验证者签名。
 
 ### 超级账本相关术语
 
@@ -72,7 +84,7 @@
 * Bootstrap（启动）：刚启动的节点可以连接到启动节点列表以获取网络中其它节点信息。启动节点必须为同一组织内节点；
 * Chaincode（链码）：区块链上的应用代码，扩展自“智能合约”概念，支持 Golang、Nodejs 等语言，多为图灵完备；
 * Channel（通道）：Fabric 网络上的私有隔离机制。通道中的链码和交易只有加入该通道的节点可见。同一个节点可以加入多个通道，并为每个通道内容维护一个账本；
-* Committer（提交节点）：一种 Peer 节点角色，负责对 Orderer 排序后的交易进行检查，选择合法的交易执行并写入存储。
+* Committer（提交节点）：一种 Peer 节点角色，负责对 Orderer 排序后的交易进行背书策略、读写集版本和 MVCC 等验证，将有效交易提交到账本并更新世界状态；它不重新执行链码，也不是在排序后“选择交易执行”。
 * Commitment（提交）：提交节点完成对排序后交易的验证，将交易内容写到区块，并更新世界状态的过程；
 * Confidentiality（保密）：只有交易相关方可以看到交易内容，其它人未经授权则无法看到；
 * Consenter Set（共识组）：在 Raft 共识机制中，每个通道可以由指定的若干排序节点来进行维护，这些排序节点构成通道的共识组。特别的，系统通道的共识组包括所有的排序节点；
